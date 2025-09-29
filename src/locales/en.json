@@ -1,0 +1,44 @@
+{
+  "home": {
+    "homeTitle": "Safe Way",
+    "title": "What would you like to do?",
+    "reportTitle": "Report an Issue",
+    "reportDescription": "File a new report for a pothole, broken street light, graffiti, or other safety concern at your current location.",
+    "checkTitle": "Check for Issues in a Place I will Visit",
+    "checkDescription": "Proactively check the status and types of reported issues (e.g., crime, road closures) in a neighborhood you plan to visit.",
+    "snapshotTitle": "Local Activity Snapshot",
+    "snapshotMessage": "2 new issues reported nearby today.",
+    "viewMap": "View Map"
+  },
+  "report": {
+    "title": "New Issue Report",
+    "findingGps": "Determining GPS location...",
+    "gps": "Lat: {{lat}}, Lon: {{lon}} (GPS)",
+    "locationDenied": "Location access denied.",
+    "locationFailed": "Location failed.",
+    "noGps": "Geolocation not supported.",
+    "capturedAt": "Captured Photo @",
+    "simulatedAt": "Simulated Photo @",
+    "uploadedFile": "Uploaded File",
+    "cameraBlocked": "Camera Disabled/Blocked",
+    "useUpload": "Use the Upload Photo option below.",
+    "awaiting": "Awaiting Camera and Location...",
+    "cameraUnavailable": "Camera Unavailable (Simulated)",
+    "capture": "Capture Photo",
+    "addDetails": "Add Details & Submit",
+    "upload": "Upload Photo from Device",
+    "or": "— OR —",
+    "altPhoto": "Captured issue photo"
+  },
+
+  "issues": {
+    "detailsTitle": "Report Issue Details",
+    "photoConfirmed": "Photo Confirmed",
+    "location": "Location",
+    "submit": "Submit Report",
+    "submitting": "Submitting...",
+    "noPhoto": "No photo captured!",
+    "success": "Report submitted successfully!",
+    "failed": "Failed to submit report. Please try again."
+  }
+}

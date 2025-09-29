@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AppView from "./paths";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 
 // const useWouter = () => {
 //   // Current path starts at root
@@ -20,10 +20,67 @@ import { useCallback, useEffect } from "react";
 //   return { path: currentPath, navigate, routeProps };
 // };
 
+// const useWouter = () => {
+//   // Initialize path from current browser URL pathname
+//   const [currentPath, setCurrentPath] = useState(
+//     window.location.pathname || AppView.REGISTRATION
+//   );
+//   const [routeProps, setRouteProps] = useState(null);
+
+//   const navigate = useCallback((targetPath, props = null) => {
+//     setRouteProps(props);
+//     setCurrentPath(targetPath);
+
+//     // Update browser history state
+//     const state = { path: targetPath, props };
+//     window.history.pushState(state, "", targetPath);
+//   }, []);
+
+//   useEffect(() => {
+//     const handlePopState = (event) => {
+//       const state = event.state || {};
+
+//       if (state.path) {
+//         const newPath = state.path;
+//         const newProps = state.props || null;
+
+//         setCurrentPath(newPath);
+//         setRouteProps(newProps);
+//       } else {
+//         // Fallback to reading the current pathname
+//         setCurrentPath(window.location.pathname || AppView.REGISTRATION);
+//         setRouteProps(null);
+//       }
+//     };
+
+//     window.addEventListener("popstate", handlePopState);
+
+//     // CRITICAL FIX: Ensure initial state reflects URL path without pushing new history entry
+//     const pathFromUrl =
+//       window.location.pathname === "/"
+//         ? AppView.REGISTRATION
+//         : window.location.pathname;
+//     if (currentPath !== pathFromUrl) {
+//       setCurrentPath(pathFromUrl);
+//       window.history.replaceState(
+//         { path: pathFromUrl, props: null },
+//         "",
+//         pathFromUrl
+//       );
+//     }
+
+//     return () => {
+//       window.removeEventListener("popstate", handlePopState);
+//     };
+//   }, []);
+
+//   return { path: currentPath, navigate, routeProps };
+// };
+
 const useWouter = () => {
   // Initialize path from current browser URL pathname
   const [currentPath, setCurrentPath] = useState(
-    window.location.pathname || AppView.REGISTRATION
+    window.location.pathname || AppView.HOME // ✅ start with HOME
   );
   const [routeProps, setRouteProps] = useState(null);
 
@@ -48,7 +105,7 @@ const useWouter = () => {
         setRouteProps(newProps);
       } else {
         // Fallback to reading the current pathname
-        setCurrentPath(window.location.pathname || AppView.REGISTRATION);
+        setCurrentPath(window.location.pathname || AppView.HOME);
         setRouteProps(null);
       }
     };
@@ -58,7 +115,7 @@ const useWouter = () => {
     // CRITICAL FIX: Ensure initial state reflects URL path without pushing new history entry
     const pathFromUrl =
       window.location.pathname === "/"
-        ? AppView.REGISTRATION
+        ? AppView.HOME // ✅ default to HOME instead of REGISTRATION
         : window.location.pathname;
     if (currentPath !== pathFromUrl) {
       setCurrentPath(pathFromUrl);
@@ -76,4 +133,5 @@ const useWouter = () => {
 
   return { path: currentPath, navigate, routeProps };
 };
+
 export default useWouter;
