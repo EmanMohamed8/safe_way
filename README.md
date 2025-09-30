@@ -156,10 +156,6 @@ Troubleshooting Minify Errors
 
 ---
 
-If you want, I can **also add a ready-to-use `screenshots` folder with placeholder images and GIFs** so this README looks fully professional on GitHub.  
-
-Do you want me to create that folder too?
-
 
 
 # SafeWay – Backend & AWS Setup (Region: us-west-2)
