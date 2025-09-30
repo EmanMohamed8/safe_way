@@ -118,7 +118,7 @@ HTML5 & CSS3 - Layout and styling
 
 Browser APIs - Camera and Geolocation support
 
-Contributing
+## Contributing
 
 Fork the repository.
 
