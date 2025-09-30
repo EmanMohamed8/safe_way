@@ -1,6 +1,24 @@
-# Getting Started with Create React App
+# Safe Way
+
+**Safe Way** is a web application built with React that provides users with an interactive dashboard to report incidents, check locations, and access community help. The app supports multiple languages (English and Arabic) and includes a demo mode for preview purposes.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+---
+
+## Features
+
+- Multi-language support (English / Arabic) with automatic RTL/LTR layout adjustment.
+- Home dashboard with quick actions:
+  - Report incidents
+  - Check safety locations
+  - Get community help
+- Responsive design that adapts to different screen sizes.
+- Demo mode with a "Demo Only" badge.
+- Navigation by clicking the logo to return to the home page.
+- Language switch buttons (ع / En) that persist language preference in local storage.
+
+---
 
 ## Available Scripts
 
@@ -9,14 +27,13 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.  
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The page will reload when you make changes. You may also see lint errors in the console.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
+Launches the test runner in interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
@@ -24,7 +41,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
+The build is minified and filenames include hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
@@ -33,38 +50,59 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 **Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This command copies all the configuration files and dependencies (webpack, Babel, ESLint, etc.) into your project so you have full control over them. All commands except `eject` still work but now point to the copied scripts.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+You don’t have to use `eject` unless you want to customize the build configuration.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
+
+## Project Structure
+safe-way/
+├─ public/
+├─ src/
+│ ├─ assets/ # Images, logos
+│ ├─ components/ # Reusable components (Header, Icons, etc.)
+│ ├─ pages/ # Application pages
+│ │ ├─ checkIssues/
+│ │ ├─ details/
+│ │ ├─ helpCommunity/
+│ │ ├─ home/
+│ │ └─ reportScreen/
+│ ├─ locales/ # Localization files
+│ │ ├─ ar/
+│ │ └─ en/
+│ ├─ routes/ # App paths and routing logic
+│ │ ├─ paths.js
+│ │ ├─ route.js
+│ │ └─ useWouter.js
+│ ├─ theme/ # AppColors and styling constants
+│ │ └─ appColors.js
+│ ├─ app/
+│ ├─ i18n.js # Internationalization setup
+│ ├─ App.js
+│ └─ index.js
+├─ package.json
+└─ README.md
+
+---
+
+## Usage
+
+- Click the **logo** in the header to navigate back to the home dashboard.
+- Use the **language buttons** (ع / En) to switch between Arabic and English.
+- Explore the home dashboard to access main features like reporting incidents, checking locations, and getting community help.
+- Enable **demo mode** to see a "Demo Only" badge.
+
+---
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- [React Documentation](https://reactjs.org/)
+- [Create React App Documentation](https://facebook.github.io/create-react-app/docs/getting-started)
+- [Code Splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- [Analyzing the Bundle Size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- [Making a Progressive Web App](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- [Advanced Configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- [Deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- [Troubleshooting Minify Errors](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
