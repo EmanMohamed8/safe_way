@@ -98,7 +98,7 @@ Explore the home dashboard to access main features like reporting incidents, che
 Enable demo mode to see a "Demo Only" badge.
 
 Project Structure
-```text
+```
 safe-way/
 ├─ public/
 ├─ src/
