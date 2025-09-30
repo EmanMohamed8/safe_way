@@ -57,6 +57,7 @@ You don’t have to use `eject` unless you want to customize the build configura
 ---
 
 ## Project Structure
+```
 safe-way/
 ├─ public/
 ├─ src/
@@ -83,7 +84,7 @@ safe-way/
 │ └─ index.js
 ├─ package.json
 └─ README.md
----
+```
 
 ## Usage
 
