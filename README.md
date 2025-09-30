@@ -103,27 +103,27 @@ Project Structure
 safe-way/
 ├─ public/
 ├─ src/
-│ ├─ assets/          # Images, logos
-│ ├─ components/      # Reusable components (Header, Icons, etc.)
-│ ├─ pages/           # Application pages
-│ │ ├─ checkIssues/
-│ │ ├─ details/
-│ │ ├─ helpCommunity/
-│ │ ├─ home/
-│ │ └─ reportScreen/
-│ ├─ locales/         # Localization files
-│ │ ├─ ar/
-│ │ └─ en/
-│ ├─ routes/          # App paths and routing logic
-│ │ ├─ paths.js
-│ │ ├─ route.js
-│ │ └─ useWouter.js
-│ ├─ theme/           # AppColors and styling constants
-│ │ └─ appColors.js
-│ ├─ app/
-│ ├─ i18n.js          # Internationalization setup
-│ ├─ App.js
-│ └─ index.js
+│  ├─ assets/          # Images, logos
+│  ├─ components/      # Reusable components (Header, Icons, etc.)
+│  ├─ pages/           # Application pages
+│  │  ├─ checkIssues/
+│  │  ├─ details/
+│  │  ├─ helpCommunity/
+│  │  ├─ home/
+│  │  └─ reportScreen/
+│  ├─ locales/         # Localization files
+│  │  ├─ ar/
+│  │  └─ en/
+│  ├─ routes/          # App paths and routing logic
+│  │  ├─ paths.js
+│  │  ├─ route.js
+│  │  └─ useWouter.js
+│  ├─ theme/           # AppColors and styling constants
+│  │  └─ appColors.js
+│  ├─ app/
+│  ├─ i18n.js          # Internationalization setup
+│  ├─ App.js
+│  └─ index.js
 ├─ package.json
 └─ README.md
 ```
