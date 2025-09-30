@@ -19,23 +19,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Language switch buttons (ع / En) that persist language preference in local storage.
 
 ---
-
-## Screenshots & Demo
-
-**Home Screen:**  
-![Home Screen](./screenshots/home.png)  
-
-**Report Issue:**  
-![Report Issue](./screenshots/report.png)  
-
-**Issue Details:**  
-![Issue Details](./screenshots/details.png)  
-
-**Demo GIF:**  
-![Demo](./screenshots/demo.gif)  
-
-> Replace the placeholders above with your actual screenshots or GIFs.
-
 ---
 
 ## Available Scripts
