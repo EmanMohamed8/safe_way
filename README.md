@@ -70,7 +70,7 @@ npm install
 ```bash
 npm start
 
-Usage
+## Usage
 
 Click the logo in the header to navigate back to the home dashboard.
 
