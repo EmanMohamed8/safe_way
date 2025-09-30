@@ -33,7 +33,7 @@ const DetailsScreen = ({ goToScreen, routeProps }) => {
       const lng = routeProps?.longitude ?? 0;
 
       // Optional: simulate a small loading delay before disabling button
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // await new Promise((resolve) => setTimeout(resolve, 500));
 
       setIsSubmitting(true); // now disable button
 
@@ -63,9 +63,9 @@ const DetailsScreen = ({ goToScreen, routeProps }) => {
 
       // Step 3: Poll report summary (max 3 tries, 3 sec apart)
       const pollReportSummary = async (attempt = 1) => {
-        if (attempt > 3) {
+        if (attempt > 10) {
           setReportMessage(
-            "⚠️ Report not ready after 3 attempts. Try again later."
+            "⚠️ Report not ready after attempt. Try again later."
           );
           setReportStatus("error");
           setLoading(false);
@@ -107,98 +107,6 @@ const DetailsScreen = ({ goToScreen, routeProps }) => {
       setLoading(false);
     }
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!imageData) {
-  //     alert("No photo captured!");
-  //     return;
-  //   }
-
-  //   if (isSubmitting) return; // prevent double submit
-  //   setIsSubmitting(true); // permanently disable button
-
-  //   setReportMessage("");
-  //   setReportStatus("pending");
-
-  //   try {
-  //     const lat = routeProps?.latitude ?? 0;
-  //     const lng = routeProps?.longitude ?? 0;
-
-  //     // Step 1: Get presigned URL
-  //     const postBody = { mimeType: "image/jpeg", lat, lng };
-  //     console.log("POST body:", postBody);
-
-  //     const urlResponse = await fetch(
-  //       "https://goeafzb84a.execute-api.us-west-2.amazonaws.com/dev/generate-Upload-Url",
-  //       {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify(postBody),
-  //       }
-  //     );
-
-  //     if (!urlResponse.ok) throw new Error("Failed to get presigned URL");
-
-  //     const { uploadUrl, reportId } = await urlResponse.json();
-  //     console.log("Presigned URL received:", uploadUrl, "Report ID:", reportId);
-
-  //     // Step 2: Upload image
-  //     const putResponse = await fetch(uploadUrl, {
-  //       method: "PUT",
-  //       headers: { "Content-Type": "image/jpeg" },
-  //       body: dataURLtoBlob(imageData),
-  //     });
-
-  //     if (!putResponse.ok) throw new Error("Failed to upload image");
-  //     console.log("Image uploaded successfully");
-
-  //     // Step 3: Poll report summary (max 3 tries, 3 sec apart)
-  //     const pollReportSummary = async (attempt = 1) => {
-  //       if (attempt > 3) {
-  //         setReportMessage(
-  //           "⚠️ Report not ready after 3 attempts. Try again later."
-  //         );
-  //         setReportStatus("error");
-  //         return;
-  //       }
-
-  //       try {
-  //         const summaryResponse = await fetch(
-  //           `https://goeafzb84a.execute-api.us-west-2.amazonaws.com/dev/reports/${reportId}/summary`
-  //         );
-  //         if (!summaryResponse.ok)
-  //           throw new Error("Failed to fetch report summary");
-
-  //         const summaryData = await summaryResponse.json();
-  //         console.log(`Attempt ${attempt}:`, summaryData);
-
-  //         if (summaryData.ready) {
-  //           setReportMessage(summaryData.message);
-  //           setReportStatus("success");
-  //         } else {
-  //           setReportMessage(summaryData.message); // show pending message
-  //           setReportStatus("pending");
-  //           const delay = (summaryData.retryAfterSec ?? 3) * 1000;
-  //           setTimeout(() => pollReportSummary(attempt + 1), delay);
-  //         }
-  //       } catch (err) {
-  //         console.error("Error polling report:", err);
-  //         setReportMessage("❌ Failed to get report summary. Check console.");
-  //         setReportStatus("error");
-  //       }
-  //     };
-
-  //     pollReportSummary();
-  //   } catch (err) {
-  //     console.error("Error submitting report:", err);
-  //     setReportMessage("❌ Failed to submit report. Check console.");
-  //     setReportStatus("error");
-  //   }
-  // };
-
-  // Helper: convert base64 to Blob
 
   function dataURLtoBlob(dataurl) {
     const arr = dataurl.split(",");
