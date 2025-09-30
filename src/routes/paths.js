@@ -5,6 +5,7 @@ const AppView = {
   REPORT: "/report",
   DETAILS: "/details",
   CHECK: "/check",
+  HELP: "/help",
 };
 
 export default AppView;

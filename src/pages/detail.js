@@ -8,87 +8,207 @@ import Header from "../components/header";
 const DetailsScreen = ({ goToScreen, routeProps }) => {
   const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [reportMessage, setReportMessage] = useState(""); // Message under button
+  const [reportStatus, setReportStatus] = useState(""); // "success", "pending", "error"
 
   const locationInfo = routeProps?.location || "Location not passed.";
   const imageData = routeProps?.imageData;
+  const [loading, setLoading] = useState(false); // new state
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!imageData) {
       alert("No photo captured!");
       return;
     }
 
-    setIsSubmitting(true);
+    if (isSubmitting) return; // prevent double submit
+    setLoading(true); // show spinner first
+    setReportMessage("");
+    setReportStatus("pending");
 
     try {
-      // Parse coordinates from locationInfo string passed from previous screen
-      // Example: "Lat: 30.0444, Lon: 31.2357 (GPS)"
-      const coordsMatch = locationInfo.match(
-        /Lat:\s*([\d.]+),\s*Lon:\s*([\d.]+)/
-      );
-      const lat = coordsMatch ? parseFloat(coordsMatch[1]) : 0;
-      const lng = coordsMatch ? parseFloat(coordsMatch[2]) : 0;
+      const lat = routeProps?.latitude ?? 0;
+      const lng = routeProps?.longitude ?? 0;
+
+      // Optional: simulate a small loading delay before disabling button
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      setIsSubmitting(true); // now disable button
 
       // Step 1: Get presigned URL
+      const postBody = { mimeType: "image/jpeg", lat, lng };
       const urlResponse = await fetch(
         "https://goeafzb84a.execute-api.us-west-2.amazonaws.com/dev/generate-Upload-Url",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            mimeType: "image/jpeg",
-            lat,
-            lng,
-          }),
+          body: JSON.stringify(postBody),
         }
       );
 
       if (!urlResponse.ok) throw new Error("Failed to get presigned URL");
 
-      const { uploadUrl, requiredHeaders, reportId, objectKey, bucket } =
-        await urlResponse.json();
+      const { uploadUrl, reportId } = await urlResponse.json();
 
-      console.log("Presigned URL received:", uploadUrl);
-
-      // Convert base64 imageData to Blob if needed
-      let fileBlob;
-      if (imageData.startsWith("data:")) {
-        const res = await fetch(imageData);
-        fileBlob = await res.blob();
-      } else {
-        fileBlob = imageData; // already a File/Blob
-      }
-
-      // Step 2: Upload image to S3
-      const uploadResponse = await fetch(uploadUrl, {
+      // Step 2: Upload image
+      const putResponse = await fetch(uploadUrl, {
         method: "PUT",
-        headers: requiredHeaders,
-        body: fileBlob,
+        headers: { "Content-Type": "image/jpeg" },
+        body: dataURLtoBlob(imageData),
       });
 
-      if (!uploadResponse.ok) throw new Error("Failed to upload image");
+      if (!putResponse.ok) throw new Error("Failed to upload image");
 
-      console.log("Upload successful:", { reportId, bucket, objectKey });
+      // Step 3: Poll report summary (max 3 tries, 3 sec apart)
+      const pollReportSummary = async (attempt = 1) => {
+        if (attempt > 3) {
+          setReportMessage(
+            "⚠️ Report not ready after 3 attempts. Try again later."
+          );
+          setReportStatus("error");
+          setLoading(false);
+          return;
+        }
 
-      // Optional: Submit report data to your backend
-      console.log("Report Submitted:", {
-        // issueType,
-        // description,
-        location: { lat, lng },
-        reportId,
-        photoUrl: uploadUrl.split("?")[0], // S3 object URL without query params
-      });
+        try {
+          const summaryResponse = await fetch(
+            `https://goeafzb84a.execute-api.us-west-2.amazonaws.com/dev/reports/${reportId}/summary`
+          );
+          if (!summaryResponse.ok)
+            throw new Error("Failed to fetch report summary");
 
-      alert("Report submitted successfully!");
-      goToScreen(AppView.HOME);
+          const summaryData = await summaryResponse.json();
+
+          if (summaryData.ready) {
+            setReportMessage(summaryData.message);
+            setReportStatus("success");
+            setLoading(false);
+          } else {
+            setReportMessage(summaryData.message);
+            setReportStatus("pending");
+            const delay = (summaryData.retryAfterSec ?? 3) * 1000;
+            setTimeout(() => pollReportSummary(attempt + 1), delay);
+          }
+        } catch (err) {
+          console.error("Error polling report:", err);
+          setReportMessage("❌ Failed to get report summary. Check console.");
+          setReportStatus("error");
+          setLoading(false);
+        }
+      };
+
+      pollReportSummary();
     } catch (err) {
       console.error("Error submitting report:", err);
-      alert("❌ Failed to submit report. Please check console for details.");
-    } finally {
-      setIsSubmitting(false);
+      setReportMessage("❌ Failed to submit report. Check console.");
+      setReportStatus("error");
+      setLoading(false);
     }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (!imageData) {
+  //     alert("No photo captured!");
+  //     return;
+  //   }
+
+  //   if (isSubmitting) return; // prevent double submit
+  //   setIsSubmitting(true); // permanently disable button
+
+  //   setReportMessage("");
+  //   setReportStatus("pending");
+
+  //   try {
+  //     const lat = routeProps?.latitude ?? 0;
+  //     const lng = routeProps?.longitude ?? 0;
+
+  //     // Step 1: Get presigned URL
+  //     const postBody = { mimeType: "image/jpeg", lat, lng };
+  //     console.log("POST body:", postBody);
+
+  //     const urlResponse = await fetch(
+  //       "https://goeafzb84a.execute-api.us-west-2.amazonaws.com/dev/generate-Upload-Url",
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify(postBody),
+  //       }
+  //     );
+
+  //     if (!urlResponse.ok) throw new Error("Failed to get presigned URL");
+
+  //     const { uploadUrl, reportId } = await urlResponse.json();
+  //     console.log("Presigned URL received:", uploadUrl, "Report ID:", reportId);
+
+  //     // Step 2: Upload image
+  //     const putResponse = await fetch(uploadUrl, {
+  //       method: "PUT",
+  //       headers: { "Content-Type": "image/jpeg" },
+  //       body: dataURLtoBlob(imageData),
+  //     });
+
+  //     if (!putResponse.ok) throw new Error("Failed to upload image");
+  //     console.log("Image uploaded successfully");
+
+  //     // Step 3: Poll report summary (max 3 tries, 3 sec apart)
+  //     const pollReportSummary = async (attempt = 1) => {
+  //       if (attempt > 3) {
+  //         setReportMessage(
+  //           "⚠️ Report not ready after 3 attempts. Try again later."
+  //         );
+  //         setReportStatus("error");
+  //         return;
+  //       }
+
+  //       try {
+  //         const summaryResponse = await fetch(
+  //           `https://goeafzb84a.execute-api.us-west-2.amazonaws.com/dev/reports/${reportId}/summary`
+  //         );
+  //         if (!summaryResponse.ok)
+  //           throw new Error("Failed to fetch report summary");
+
+  //         const summaryData = await summaryResponse.json();
+  //         console.log(`Attempt ${attempt}:`, summaryData);
+
+  //         if (summaryData.ready) {
+  //           setReportMessage(summaryData.message);
+  //           setReportStatus("success");
+  //         } else {
+  //           setReportMessage(summaryData.message); // show pending message
+  //           setReportStatus("pending");
+  //           const delay = (summaryData.retryAfterSec ?? 3) * 1000;
+  //           setTimeout(() => pollReportSummary(attempt + 1), delay);
+  //         }
+  //       } catch (err) {
+  //         console.error("Error polling report:", err);
+  //         setReportMessage("❌ Failed to get report summary. Check console.");
+  //         setReportStatus("error");
+  //       }
+  //     };
+
+  //     pollReportSummary();
+  //   } catch (err) {
+  //     console.error("Error submitting report:", err);
+  //     setReportMessage("❌ Failed to submit report. Check console.");
+  //     setReportStatus("error");
+  //   }
+  // };
+
+  // Helper: convert base64 to Blob
+
+  function dataURLtoBlob(dataurl) {
+    const arr = dataurl.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) u8arr[n] = bstr.charCodeAt(n);
+    return new Blob([u8arr], { type: mime });
+  }
 
   const submitButtonStyle = {
     width: "100%",
@@ -97,13 +217,40 @@ const DetailsScreen = ({ goToScreen, routeProps }) => {
     borderRadius: "12px",
     color: AppColors.white,
     backgroundColor: AppColors.primary,
-    cursor: "pointer",
+    cursor: isSubmitting ? "not-allowed" : "pointer",
     border: "none",
     boxShadow: AppColors.shadowPrimary,
-    opacity: isSubmitting ? 0.5 : 1,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    opacity: isSubmitting ? 0.5 : 1,
+  };
+
+  const messageCardStyle = {
+    marginTop: "16px",
+    padding: "16px",
+    borderRadius: "12px",
+    backgroundColor:
+      reportStatus === "success"
+        ? AppColors.green100
+        : reportStatus === "pending"
+        ? AppColors.yellow100
+        : AppColors.red100,
+    border:
+      reportStatus === "success"
+        ? `1px solid ${AppColors.green600}`
+        : reportStatus === "pending"
+        ? `1px solid ${AppColors.yellow600}`
+        : `1px solid ${AppColors.red600}`,
+    color:
+      reportStatus === "success"
+        ? AppColors.green800
+        : reportStatus === "pending"
+        ? AppColors.yellow800
+        : AppColors.red800,
+    whiteSpace: "pre-line",
+    fontSize: "14px",
+    boxShadow: AppColors.shadowGeneral,
   };
 
   return (
@@ -199,12 +346,19 @@ const DetailsScreen = ({ goToScreen, routeProps }) => {
             </div>
 
             {/* Submit Button */}
+            {/* <button
+              type="submit"
+              style={submitButtonStyle}
+              disabled={isSubmitting}
+            >
+              {t("issues.submit")}
+            </button> */}
             <button
               type="submit"
               style={submitButtonStyle}
               disabled={isSubmitting}
             >
-              {isSubmitting ? (
+              {loading ? (
                 <>
                   <Icon
                     name="loader-2"
@@ -229,6 +383,10 @@ const DetailsScreen = ({ goToScreen, routeProps }) => {
                 </>
               )}
             </button>
+            {/* Styled Report Message */}
+            {reportMessage && (
+              <div style={messageCardStyle}>{reportMessage}</div>
+            )}
           </form>
         </div>
       </main>

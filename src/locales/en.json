@@ -3,13 +3,16 @@
     "homeTitle": "Safe Way",
     "title": "What would you like to do?",
     "reportTitle": "Report an Issue",
-    "reportDescription": "File a new report for a pothole, broken street light, graffiti, or other safety concern at your current location.",
+    "reportDescription": "Create a new report about an open manhole, a pothole, a road crack, a broken streetlight, or a streetlight that is on during the day, to help ensure a faster response and protect citizens’ safety.",
     "checkTitle": "Check for Issues in a Place I will Visit",
-    "checkDescription": "Proactively check the status and types of reported issues (e.g., crime, road closures) in a neighborhood you plan to visit.",
+    "checkDescription": "Proactively check the status and types of reported issues in a neighborhood you plan to visit. You can search by place name or open the auto-navigator; it will notify you about issues along your route.",
+    "helpCommunityTitle": "Help Community",
+    "helpCommunityDescription": "Join local volunteers and help follow up on whether submitted reports have been resolved, to increase their credibility, build trust, and be part of helping your community.",
     "snapshotTitle": "Local Activity Snapshot",
     "snapshotMessage": "2 new issues reported nearby today.",
     "viewMap": "View Map"
   },
+
   "report": {
     "title": "New Issue Report",
     "findingGps": "Determining GPS location...",
@@ -40,5 +43,46 @@
     "noPhoto": "No photo captured!",
     "success": "Report submitted successfully!",
     "failed": "Failed to submit report. Please try again."
+  },
+  "checkIssues": {
+    "title": "Check Issues",
+    "checkDescription": "Search by place name or open auto navigator; it will notify you about issues on your route.",
+    "reportedIssuesTitle": "4 issues reported in the last 7 days",
+    "progress": "Progress",
+    "severityCritical": "Critical",
+    "severityPending": "Pending Review",
+    "severityNew": "New",
+    "severityUrgent": "Urgent",
+    "issue1Title": "Street Damage / Hole",
+    "issue1Eta": "Est. Fix: 3 Days",
+    "issue2Title": "Danger in Lamp Post",
+    "issue2Eta": "Est. Review: 24h",
+    "issue3Title": "Open Manhole",
+    "issue3Eta": "New Issue",
+    "issue4Title": "Lamp Post Left On in Morning",
+    "issue4Eta": "Fixing Today"
+  },
+  "helpCommunity": {
+    "title": "Community Help Actions",
+    "subtitle": "Issues that need checking or assistance:",
+    "location": "Location",
+    "actions": {
+      "type": "Type",
+      "markSolved": "Solved",
+      "markPending": "Pending"
+    },
+    "issues": {
+      "issue1Title": "Graffiti Removal",
+      "issue1Type": "Cleanup",
+      "issue1Location": "Park entrance fence",
+      "issue2Title": "Pothole Patching (requires concrete)",
+      "issue2Type": "Repair",
+      "issue2Location": "Intersection of Oak St.",
+      "issue3Title": "Broken Bench Repair",
+      "issue3Type": "Repair",
+      "issue3Location": "Main Street bus stop"
+    },
+    "statusPending": "Pending",
+    "statusSolved": "Solved"
   }
 }

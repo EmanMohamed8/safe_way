@@ -9,6 +9,7 @@ import useWouter from "./routes/useWouter";
 import Route from "./routes/route";
 import AppColors from "./theme/appColors";
 import { useEffect } from "react";
+import HelpCommunityScreen from "./pages/helpCommunity";
 
 export default function App() {
   const { path, navigate, routeProps } = useWouter();
@@ -97,6 +98,13 @@ export default function App() {
           path={AppView.CHECK}
           component={CheckIssuesScreen}
           isCurrent={path === AppView.CHECK}
+          navigate={navigate}
+          routeProps={routeProps}
+        />
+        <Route
+          path={AppView.HELP}
+          component={HelpCommunityScreen}
+          isCurrent={path === AppView.HELP}
           navigate={navigate}
           routeProps={routeProps}
         />
