@@ -83,7 +83,6 @@ safe-way/
 │ └─ index.js
 ├─ package.json
 └─ README.md
-
 ---
 
 ## Usage
