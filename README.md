@@ -19,7 +19,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Language switch buttons (ع / En) that persist language preference in local storage.
 
 ---
----
 
 ## Available Scripts
 
